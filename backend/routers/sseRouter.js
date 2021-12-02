@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 const sseRouter = express.Router();
-const { Chat } = require("../mongodb");
+const { Chat } = require("../database/mongodb");
 
 sseRouter.post("/post", (req, res) => {
   const newMessage = new Chat({
