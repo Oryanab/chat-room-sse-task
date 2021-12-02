@@ -1,0 +1,15 @@
+"use strict";
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const sseRouter = require("./routers/sseRouter");
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+
+app.use("/", sseRouter);
+app.use(express.static("../build"));
+
+app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
