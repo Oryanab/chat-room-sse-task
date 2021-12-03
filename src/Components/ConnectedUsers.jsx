@@ -1,10 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-export default function ConnectedUsers({
-  connectedUsers,
-  setCauseContactsRender,
-}) {
-  setCauseContactsRender(connectedUsers);
+export default function ConnectedUsers({ connectedUsers }) {
   return (
     <>
       {connectedUsers.map((name) => {

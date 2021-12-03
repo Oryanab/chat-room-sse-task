@@ -6,7 +6,7 @@ export default function TypeMessage({ username, setCauseRender }) {
 
   async function addMessageToChat(name, message) {
     try {
-      await axios.post("http://localhost:8000/post", {
+      await axios.post("http://localhost:8000/sse/post", {
         username: name,
         message: message,
       });

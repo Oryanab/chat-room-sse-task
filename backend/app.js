@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(middlewareServerError);
 app.use(middlewarePageNotFound);
 
-app.use("/", sseRouter);
+app.use("/sse", sseRouter);
 app.use(express.static("../build"));
 
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));

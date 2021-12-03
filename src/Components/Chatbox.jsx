@@ -3,10 +3,6 @@ import axios from "axios";
 import SingleMessage from "./SingleMessage";
 
 export default function Chatbox({ username, allMessages }) {
-  //   const testlist = [
-  //     { username: "oryan", message: "hello" },
-  //     { username: "oryan", message: "hello" },
-  //   ];
   return (
     <>
       <div>
@@ -14,7 +10,11 @@ export default function Chatbox({ username, allMessages }) {
         <div id="messages">
           {allMessages.map((msg) => {
             return (
-              <SingleMessage message={msg.message} username={msg.username} />
+              <SingleMessage
+                message={msg.message}
+                username={msg.username}
+                time={msg.time}
+              />
             );
           })}
         </div>
