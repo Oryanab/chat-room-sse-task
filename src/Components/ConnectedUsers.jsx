@@ -4,7 +4,7 @@ export default function ConnectedUsers({ connectedUsers }) {
   return (
     <>
       {connectedUsers.map((name) => {
-        return <h3 key={name}>{name}</h3>;
+        return <h5 key={name}>{name}</h5>;
       })}
     </>
   );

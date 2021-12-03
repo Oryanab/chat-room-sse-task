@@ -1,14 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-export default function TypeMessage({ username }) {
+export default function TypeMessage({ username, setCauseRender }) {
   const messageInput = useRef("");
 
   async function addMessageToChat(name, message) {
-    await axios.post("http://localhost:8000/post", {
-      username: name,
-      message: message,
-    });
+    try {
+      await axios.post("http://localhost:8000/post", {
+        username: name,
+        message: message,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    setCauseRender(messageInput.current.value);
     messageInput.current.value = "";
   }
 

@@ -2,14 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import SingleMessage from "./SingleMessage";
 
-export default function Chatbox({ username, allMessages, setAllMessages }) {
-  const source = new EventSource("http://localhost:8000/");
-  source.onmessage = function (event) {
-    //document.getElementById("messages").innerHTML = "";
-    setAllMessages(event.data);
-  };
-  useEffect(() => {}, [allMessages]);
-
+export default function Chatbox({ username, allMessages }) {
   //   const testlist = [
   //     { username: "oryan", message: "hello" },
   //     { username: "oryan", message: "hello" },
