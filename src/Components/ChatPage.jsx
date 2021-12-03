@@ -5,7 +5,6 @@ import React, { useEffect, useState, useRef } from "react";
 
 export default function ChatPage({ username, connectedUsers }) {
   const [allMessages, setAllMessages] = useState([]);
-  useEffect(() => {}, [allMessages]);
   return (
     <>
       <Chatbox
