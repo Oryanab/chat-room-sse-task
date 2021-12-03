@@ -23,3 +23,14 @@ code {
   display: flex;
   justify-content: space-evenly;
 }
+
+.chatbox-div {
+  overflow-y: scroll;
+  height: 350px;
+}
+
+.chatbox-users {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}

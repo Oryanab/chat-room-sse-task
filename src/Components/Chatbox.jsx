@@ -6,7 +6,6 @@ export default function Chatbox({ username, allMessages }) {
   return (
     <>
       <div>
-        <h3>hello {username}!</h3>
         <div id="messages">
           {allMessages.map((msg) => {
             return (

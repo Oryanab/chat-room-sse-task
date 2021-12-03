@@ -5,6 +5,9 @@ const { Chat } = require("../database/mongodb");
 const path = require("path");
 const fs = require("fs");
 
+// let messages = [];
+let connected = [];
+
 sseRouter.post("/post", (req, res) => {
   let database = returnDataBase();
   database.messages.push({
@@ -30,15 +33,19 @@ sseRouter.post("/post", (req, res) => {
 });
 
 sseRouter.post("/user", (req, res) => {
-  let database = returnDataBase();
-  database.connected.push(req.body.username);
-  saveDataBase(database);
+  // let database = returnDataBase();
+  // database.
+  if (!connected.includes(req.body.username)) {
+    connected.push(req.body.username);
+  }
+  //saveDataBase(database);
   res.status(200).json({ status: "success" });
 });
 
 sseRouter.get("/getusers", (req, res) => {
-  let database = returnDataBase();
-  res.status(200).json(database.connected);
+  // let database = returnDataBase();
+  // res.status(200).json(database.connected);
+  res.status(200).json(connected);
 });
 
 sseRouter.get("/", (req, res) => {
@@ -53,6 +60,7 @@ sseRouter.get("/", (req, res) => {
   }, 1000);
   res.on("close", (e) => {
     console.log("Client closed connection");
+    //connected.splice();
     clearInterval(intervalId);
     res.end();
   });

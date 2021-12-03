@@ -13,6 +13,9 @@ export default function LoginForm({
     IsAuth(true);
     setUsername(localStorage.getItem("username"));
     setRefreshChat(localStorage.getItem("username"));
+    axios.post("http://localhost:8000/sse/user", {
+      username: localStorage.getItem("username"),
+    });
   } else {
     IsAuth(false);
   }

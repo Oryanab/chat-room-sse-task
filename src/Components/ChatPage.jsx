@@ -20,6 +20,9 @@ export default function ChatPage({ username, refreshChat }) {
     eventSource.onmessage = function (event) {
       updateMessages(JSON.parse(event.data));
     };
+    axios.post("http://localhost:8000/sse/user", {
+      username: localStorage.getItem("username"),
+    });
     getUsers();
   }, [causeRender]);
 
@@ -35,9 +38,16 @@ export default function ChatPage({ username, refreshChat }) {
 
   return (
     <>
-      <Chatbox allMessages={allMessages} username={username} />
-      <ConnectedUsers connectedUsers={connectedUsers} />
-      <TypeMessage setCauseRender={setCauseRender} username={username} />
+      <div>
+        <h3>hello {username}!</h3>
+        <div className="chatbox-div">
+          <Chatbox allMessages={allMessages} username={username} />
+        </div>
+        <div className="chatbox-users">
+          <ConnectedUsers connectedUsers={connectedUsers} />
+        </div>
+        <TypeMessage setCauseRender={setCauseRender} username={username} />
+      </div>
     </>
   );
 }
