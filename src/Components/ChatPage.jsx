@@ -10,7 +10,9 @@ export default function ChatPage({ username, connectedUsers }) {
 
   useEffect(() => {
     let eventSource = new EventSource("http://localhost:8000");
-    eventSource.onmessage = (e) => updateMessages(JSON.parse(e.data));
+    eventSource.addEventListener("message", function (event) {
+      updateMessages(JSON.parse(event.data));
+    });
 
     //eventSource.onerror = () => {
     //   console.log("server Closed Connection");

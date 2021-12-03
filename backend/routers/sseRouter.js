@@ -25,6 +25,7 @@ sseRouter.post("/user", (req, res) => {
   let database = returnDataBase();
   database.connected.push(req.body.username);
   saveDataBase(database);
+
   res.status(200).json(database.connected);
 });
 
@@ -36,6 +37,7 @@ sseRouter.get("/", (req, res) => {
         "Content-Type": "text/event-stream",
         Connection: "keep-alive",
       });
+
       const intervalId = setTimeout(() => {
         res.write(`data: ${JSON.stringify(messages)}\n\n`);
       }, 100);
