@@ -7,29 +7,30 @@ import axios from "axios";
 export default function ChatPage({ username, connectedUsers }) {
   const [allMessages, setAllMessages] = useState([]);
   const [causeRender, setCauseRender] = useState(null);
+  const [causeContactsRender, setCauseContactsRender] = useState(null);
 
   useEffect(() => {
     let eventSource = new EventSource("http://localhost:8000");
-    eventSource.addEventListener("message", function (event) {
+    eventSource.onmessage = function (event) {
       updateMessages(JSON.parse(event.data));
-    });
-
-    //eventSource.onerror = () => {
-    //   console.log("server Closed Connection");
-    //   eventSource.close();
-    // };
+    };
   }, [causeRender]);
 
   useEffect(() => {}, [causeRender]);
+  useEffect(() => {}, [causeContactsRender]);
 
   const updateMessages = (messages) => {
     setAllMessages([...messages]);
+    setCauseRender(causeRender);
   };
 
   return (
     <>
       <Chatbox allMessages={allMessages} username={username} />
-      <ConnectedUsers connectedUsers={connectedUsers} />
+      <ConnectedUsers
+        setCauseContactsRender={setCauseContactsRender}
+        connectedUsers={connectedUsers}
+      />
       <TypeMessage setCauseRender={setCauseRender} username={username} />
     </>
   );
