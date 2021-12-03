@@ -19,26 +19,28 @@ sseRouter.post("/post", (req, res) => {
     });
 });
 
-sseRouter.get("/", (req, res) => {
-  Chat.find()
-    .then((massages) => {
-      console.log("Client open chat");
-      res.setHeader("Content-Type", "text/event-stream");
-      res.setHeader("Access-Control-Allow-Origin", "*");
+sseRouter.get("/", async (req, res) => {
+  let messages = await Chat.find();
+  // Chat.find()
+  //   .then((massages) => {
+  console.log("Client open chat");
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
-      const intervalId = setTimeout(() => {
-        res.write(`data: ${massages}\n\n`);
-      }, 100);
+  const intervalId = setTimeout(() => {
+    res.write(`data: ${messages}`);
+    //res.json(messages);
+  }, 1000);
 
-      res.on("close", (e) => {
-        console.log("Client closed connection");
-        clearInterval(intervalId);
-        res.end();
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  res.on("close", (e) => {
+    console.log("Client closed connection");
+    clearInterval(intervalId);
+    res.end();
+  });
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // });
 });
 
 module.exports = sseRouter;

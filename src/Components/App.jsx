@@ -7,7 +7,6 @@ function App() {
   const [auth, IsAuth] = useState(false);
   const [username, setUsername] = useState("");
   const [connectedUsers, setConnectedUsers] = useState([]);
-  const [allMessages, setAllMessages] = useState([]);
 
   return (
     <>
@@ -26,8 +25,6 @@ function App() {
                       IsAuth={IsAuth}
                       username={username}
                       connectedUsers={connectedUsers}
-                      allMessages={allMessages}
-                      setAllMessages={setAllMessages}
                     />
                   ) : (
                     <LoginForm

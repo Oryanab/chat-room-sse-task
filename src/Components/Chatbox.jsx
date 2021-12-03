@@ -3,24 +3,25 @@ import axios from "axios";
 import SingleMessage from "./SingleMessage";
 
 export default function Chatbox({ username, allMessages, setAllMessages }) {
-  const messageBoxDiv = useRef(null);
-  const eventSource = new EventSource("http://localhost:8000/");
-
-  eventSource.onmessage = function (event) {
+  const source = new EventSource("http://localhost:8000/");
+  source.onmessage = function (event) {
     //document.getElementById("messages").innerHTML = "";
-    console.log(event.data);
     setAllMessages(event.data);
   };
+  useEffect(() => {}, [allMessages]);
 
+  //   const testlist = [
+  //     { username: "oryan", message: "hello" },
+  //     { username: "oryan", message: "hello" },
+  //   ];
   return (
     <>
       <div>
         <h3>hello {username}!</h3>
         <div id="messages">
-          {allMessages.forEach((msg) => {
+          {allMessages.map((msg) => {
             return (
-              <p>msg.message</p>
-              //   <SingleMessage message={msg.message} username={msg.username} />
+              <SingleMessage message={msg.message} username={msg.username} />
             );
           })}
         </div>
