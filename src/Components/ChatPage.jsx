@@ -2,52 +2,34 @@ import Chatbox from "./Chatbox";
 import ConnectedUsers from "./ConnectedUsers";
 import TypeMessage from "./TypeMessage";
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
-const eventSource = new EventSource("http://localhost:8000/sse");
-
-export default function ChatPage({ username, refreshChat }) {
+export default function ChatPage({ username }) {
   const [allMessages, setAllMessages] = useState([]);
-  const [causeRender, setCauseRender] = useState(null);
   const [connectedUsers, setConnectedUsers] = useState([]);
+  const [causeRender, setCauseRender] = useState(null);
 
-  // async function getUsers() {
-  //   const result = await axios.get("http://localhost:8000/sse/getusers");
-  //   setConnectedUsers(result.data);
-  // }
-
-  useEffect(async () => {
-    eventSource.onmessage = function (event) {
-      updateMessages(JSON.parse(event.data));
+  useEffect(() => {
+    const eventSourceMessages = new EventSourcePolyfill(
+      "http://localhost:8000/sse",
+      {
+        headers: {
+          username: localStorage.getItem("username"),
+        },
+      }
+    );
+    eventSourceMessages.onmessage = function (event) {
+      setAllMessages(JSON.parse(event.data).messages);
+      setConnectedUsers(JSON.parse(event.data).connected);
     };
-    axios.post("http://localhost:8000/sse/user", {
-      username: localStorage.getItem("username"),
-    });
-
-    axios.get("http://localhost:8000/sse/getusers").then((users) => {
-      setConnectedUsers(users.data);
-      console.log(users.data);
-    });
   }, [causeRender]);
-
-  //useEffect(() => {}, [refreshChat]);
-
-  useEffect(() => {}, [causeRender]);
-
-  const updateMessages = (messages) => {
-    setAllMessages([...messages]);
-  };
-
-  const updateUsers = (users) => {
-    setConnectedUsers([...users]);
-  };
 
   return (
     <>
       <div>
         <h3>hello {username}!</h3>
         <div className="chatbox-div">
-          <Chatbox allMessages={allMessages} username={username} />
+          <Chatbox allMessages={allMessages} />
         </div>
         <div className="chatbox-users">
           <ConnectedUsers connectedUsers={connectedUsers} />

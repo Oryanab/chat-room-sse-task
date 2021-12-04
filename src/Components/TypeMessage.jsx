@@ -14,6 +14,7 @@ export default function TypeMessage({ username, setCauseRender }) {
       console.log(err);
     }
     setCauseRender(messageInput.current.value);
+
     messageInput.current.value = "";
   }
 

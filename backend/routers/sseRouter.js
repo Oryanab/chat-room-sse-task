@@ -5,8 +5,9 @@ const { Chat } = require("../database/mongodb");
 const path = require("path");
 const fs = require("fs");
 
-let connected = [];
-
+/*
+    Post: Add new message to db
+*/
 sseRouter.post("/post", (req, res) => {
   let database = returnDataBase();
   database.messages.push({
@@ -18,36 +19,45 @@ sseRouter.post("/post", (req, res) => {
   res.status(200).json({ status: "success" });
 });
 
+/*
+    Post: Add new user to Connected Array
+*/
 sseRouter.post("/user", (req, res) => {
-  if (!connected.includes(req.body.username)) {
-    connected.push(req.body.username);
+  let database = returnDataBase();
+  if (!database.connected.includes(req.body.username)) {
+    database.connected.push(req.body.username);
   }
+  saveDataBase(database);
   res.status(200).json({ status: "success" });
 });
 
-sseRouter.get("/getusers", (req, res) => {
-  res.status(200).json(connected);
-});
-
+/*
+    Get: get all messages from db
+*/
 sseRouter.get("/", (req, res) => {
-  let messages = returnDataBase().messages;
-  console.log("Client open chat");
+  let database = returnDataBase();
+  console.log("Client open chat " + req.headers.username);
   res.set({
     "Content-Type": "text/event-stream",
     Connection: "keep-alive",
   });
   const intervalId = setTimeout(() => {
-    res.write(`data: ${JSON.stringify(messages)}\n\n`);
+    res.write(`data: ${JSON.stringify(database)}\n\n`);
   }, 1000);
   res.on("close", (e) => {
-    console.log("Client closed connection");
-    //connected.splice();
+    console.log("Client closed connection" + req.headers.username);
+    database.connected.splice(req.headers.username, 1);
+    saveDataBase(database);
     clearInterval(intervalId);
     res.end();
   });
 });
 
+/*
+    Get: get all connected from db
+*/
 sseRouter.get("/users", (req, res) => {
+  let connected = returnDataBase().connected;
   console.log("new user open chat");
   res.set({
     "Content-Type": "text/event-stream",
@@ -58,7 +68,6 @@ sseRouter.get("/users", (req, res) => {
   }, 1000);
   res.on("close", (e) => {
     console.log("Client closed connection");
-    //connected.splice();
     clearInterval(intervalId);
     res.end();
   });

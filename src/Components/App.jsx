@@ -6,7 +6,6 @@ import ChatPage from "./ChatPage";
 function App() {
   const [auth, IsAuth] = useState(false);
   const [username, setUsername] = useState("");
-  const [refreshChat, setRefreshChat] = useState("");
 
   return (
     <>
@@ -20,21 +19,12 @@ function App() {
                 path="/"
                 element={
                   auth ? (
-                    <ChatPage
-                      auth={auth}
-                      IsAuth={IsAuth}
-                      username={username}
-                      refreshChat={refreshChat}
-                      //connectedUsers={connectedUsers}
-                    />
+                    <ChatPage auth={auth} IsAuth={IsAuth} username={username} />
                   ) : (
                     <LoginForm
                       auth={auth}
                       IsAuth={IsAuth}
                       setUsername={setUsername}
-                      setRefreshChat={setRefreshChat}
-                      // setConnectedUsers={setConnectedUsers}
-                      // connectedUsers={connectedUsers}
                     />
                   )
                 }

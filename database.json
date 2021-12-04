@@ -1,4 +1,11 @@
 {
-  "connected": ["oryan", "ohad", "man", "oahd", "ohad"],
-  "messages": []
+  "connected": [],
+  "messages": [
+    { "username": "oryan", "message": "jj", "time": "23:57:22" },
+    { "username": "ohad", "message": "ohad hey", "time": "00:04:35" },
+    { "username": "oryan", "message": "ohad hello", "time": "00:04:44" },
+    { "username": "ohad", "message": "hlooo", "time": "00:04:51" },
+    { "username": "ohad", "message": "he", "time": "00:23:22" },
+    { "username": "ohad", "message": "hey ohad", "time": "00:35:34" }
+  ]
 }

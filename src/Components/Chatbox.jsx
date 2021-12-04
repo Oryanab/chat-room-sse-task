@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import SingleMessage from "./SingleMessage";
 
-export default function Chatbox({ username, allMessages }) {
+export default function Chatbox({ allMessages }) {
   return (
     <>
       <div>
