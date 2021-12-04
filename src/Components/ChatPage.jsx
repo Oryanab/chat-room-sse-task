@@ -4,36 +4,42 @@ import TypeMessage from "./TypeMessage";
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
+const eventSource = new EventSource("http://localhost:8000/sse");
+
 export default function ChatPage({ username, refreshChat }) {
   const [allMessages, setAllMessages] = useState([]);
   const [causeRender, setCauseRender] = useState(null);
   const [connectedUsers, setConnectedUsers] = useState([]);
 
-  async function getUsers() {
-    axios.get("http://localhost:8000/sse/getusers").then((result) => {
-      setConnectedUsers(result.data);
-    });
-  }
+  // async function getUsers() {
+  //   const result = await axios.get("http://localhost:8000/sse/getusers");
+  //   setConnectedUsers(result.data);
+  // }
 
-  useEffect(() => {
-    let eventSource = new EventSource("http://localhost:8000/sse");
+  useEffect(async () => {
     eventSource.onmessage = function (event) {
       updateMessages(JSON.parse(event.data));
     };
     axios.post("http://localhost:8000/sse/user", {
       username: localStorage.getItem("username"),
     });
-    getUsers();
+
+    axios.get("http://localhost:8000/sse/getusers").then((users) => {
+      setConnectedUsers(users.data);
+      console.log(users.data);
+    });
   }, [causeRender]);
 
-  useEffect(() => {
-    getUsers();
-  }, [refreshChat]);
+  //useEffect(() => {}, [refreshChat]);
 
   useEffect(() => {}, [causeRender]);
 
   const updateMessages = (messages) => {
     setAllMessages([...messages]);
+  };
+
+  const updateUsers = (users) => {
+    setConnectedUsers([...users]);
   };
 
   return (
